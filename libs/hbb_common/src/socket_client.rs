@@ -61,7 +61,7 @@ pub fn set_port<T: std::string::ToString>(host: T, port: i32) -> String {
         let tmp: Vec<&str> = host.split(':').collect();
         return format!("{}:{}", tmp[0], port);
     }
-    format!("{}]:{}", host, port);
+    format!("{}:{}", host, port);
 }
 
 pub fn test_if_valid_server(host: &str, test_with_proxy: bool) -> String {
