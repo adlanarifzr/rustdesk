@@ -49,6 +49,21 @@ pub fn increase_port<T: std::string::ToString>(host: T, offset: i32) -> String {
     host
 }
 
+#[inline]
+pub fn set_port<T: std::string::ToString>(host: T, port: i32) -> String {
+    let host = host.to_string();
+    if crate::is_ipv6_str(&host) {
+        if host.starts_with('[') {
+            let tmp: Vec<&str> = host.split("]:").collect();
+            return format!("{}]:{}", tmp[0], port);
+        }
+    } else if host.contains(':') {
+        let tmp: Vec<&str> = host.split(':').collect();
+        return format!("{}:{}", tmp[0], port);
+    }
+    format!("{}]:{}", host, port);
+}
+
 pub fn test_if_valid_server(host: &str, test_with_proxy: bool) -> String {
     let host = check_port(host, 0);
     use std::net::ToSocketAddrs;

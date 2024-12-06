@@ -507,7 +507,7 @@ async fn test_nat_type_() -> ResultType<bool> {
     let start = std::time::Instant::now();
     let (rendezvous_server, _, _) = get_rendezvous_server(1_000).await;
     let server1 = rendezvous_server;
-    let server2 = crate::increase_port(&server1, -1);
+    let server2 = crate::set_port(&server1, 80);
     let mut msg_out = RendezvousMessage::new();
     let serial = Config::get_serial();
     msg_out.set_test_nat_request(TestNatRequest {
@@ -780,6 +780,11 @@ pub fn check_port<T: std::string::ToString>(host: T, port: i32) -> String {
 #[inline]
 pub fn increase_port<T: std::string::ToString>(host: T, offset: i32) -> String {
     hbb_common::socket_client::increase_port(host, offset)
+}
+
+#[inline]
+pub fn set_port<T: std::string::ToString>(host: T, port: i32) -> String {
+    hbb_common::socket_client::set_port(host, port)
 }
 
 pub const POSTFIX_SERVICE: &'static str = "_service";
